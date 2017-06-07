@@ -1,0 +1,69 @@
+<!doctype html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="code/chapter/15_game.js"></script>
+<script src="code/game_levels.js"></script>
+
+<link rel="stylesheet" href="css/game.css">
+<!--
+<head>
+  <EMBED src="fc.mp3" autostart="true" loop="true" width="80" height="20"></EMBED>
+  </head>
+-->
+<body>
+
+<button id="btnLeft">Left</button>
+<button id="btnUp">Up</button>
+<button id="btnRight">Right</button>
+<button id="btnFast">Fast</button>
+
+
+  <script>
+      window.onload=conn;
+
+      //执行游戏
+      runGame(GAME_LEVELS, DOMDisplay);
+      //执行游戏
+
+      //连接access数据库
+      /*
+      function conn(){
+          var db_bbs;
+          db_bbs="PlatformGame.mdb";//定义数据库
+          var conn = new ActiveXObject("ADODB.Connection");
+          conn.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source="+db_bbs+"");
+          var rs = new ActiveXObject("ADODB.Recordset");
+          var sql="select name from User"; //数据库中有authors表，name字段
+          rs.open(sql,conn);
+          alert(rs(1));//取出第一个来
+          conn.close();
+          conn = null;
+      }
+      */
+      //连接access数据库
+
+
+
+
+      //var db_bbs;
+      //db_bbs="AppDomain.CurrentDomain.BaseDirectory//PlatformGame.mdb";//定义数据库
+      var conn = new ActiveXObject("ADODB.Connection");
+      //conn.Open("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|DB//PlatformGame.mdb");
+      conn.Open("DBQ=F://soft//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};");
+      var rs = new ActiveXObject("ADODB.Recordset");
+      var sql="select * from user";
+      rs.open(sql, conn);
+      var html="";
+      while(!rs.EOF)
+      {
+          html=html+rs.Fields("ID")+" "+rs.Fields("userid");
+          rs.moveNext();
+      }
+      document.write(html);
+      rs.close();
+      rs = null;
+      conn.close();
+      conn = null;
+
+      //增添
+  </script>
+</body>
