@@ -24,11 +24,36 @@ $(document).ready(function(){
 		$('#pwd').css("background-color","red");	
 		return false;
 	}
-	var name = $("#userid").val();
-    var pwd = $('#pwd').val();
-    return true;
+	var conn = new ActiveXObject("ADODB.Connection");
+    conn.Open("DBQ=F://soft//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};");
+    var rs = new ActiveXObject("ADODB.Recordset");
+    var sql="select userid from users";
+    rs.open(sql, conn);
+	while(!rs.EOF) 
+	{ 
+	 if(rs.Fields("userid")== name)
+	 {
+	 alert("账号已经存在");
+	 return false;
+	 }
+	 rs.moveNext();
+	 } 
+	 var sql1="insert into users(userid,pwd) values("+name+",'"+pwd+"')"; 
+		   try{
+			   conn.execute(sql1);
+			   alert("创建成功");
+				}
+			   catch(e){
+			   document.write(e.description);
+			   alert("添加失败~~~");
+			   
+	  rs.close(); 
+	  rs = null; 
+	  conn.close(); 
+	  conn = null;
+      return true; 
+	  }
 	});
-	document.getElementById("aa").action="sign_yanz.htm?userid="+name+"&pwd="+pwd;
 });
 </script>
 </head>
@@ -39,7 +64,7 @@ $(document).ready(function(){
     <div class="content">
         <h1 class="content-title">创建账户</h1>
         <div class="content-form">
-            <form id="aa" method="post">
+            <form id="aa" method="post" action="login.html">
                 <div id="change_margin_1">账号
                     <input id="userid" class="user" type="text">
                 </div>

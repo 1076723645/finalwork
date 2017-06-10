@@ -6,9 +6,9 @@
 <script language="javascript">
 var name=request.Form["userid"];
 var pwd=request.Form["pwd"];
-var conn = new ActiveXObject("ADODB.Connection"); 
-conn.Open("DBQ=f://soft//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};"); 
-var rs = new ActiveXObject("ADODB.Recordset"); 
+var conn = new ActiveXObject("ADODB.Connection");
+conn.Open("DBQ=F://soft//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};");
+var rs = new ActiveXObject("ADODB.Recordset");
 var sql="select * from users where userid=" + name + ""; 
 rs.open(sql, conn); 
 if(!rs.EOF) 

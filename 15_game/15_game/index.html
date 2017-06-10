@@ -59,7 +59,7 @@ roc.db.createDb = function(){
       var conn = new ActiveXObject("ADODB.Connection");
       conn.Open("DBQ=F://soft//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};");
       var rs = new ActiveXObject("ADODB.Recordset");
-      var sql="select * from user";
+      var sql="select * from users";
       rs.open(sql, conn);
       var html="";
       while(!rs.EOF)
