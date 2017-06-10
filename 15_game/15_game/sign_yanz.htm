@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<script language="javascript">
+var name=request.Form["userid"];
+var pwd=request.Form["pwd"];
+var conn = new ActiveXObject("ADODB.Connection"); 
+conn.Open("DBQ=f://soft//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};"); 
+var rs = new ActiveXObject("ADODB.Recordset"); 
+var sql="select * from users where userid=" + name + ""; 
+rs.open(sql, conn); 
+if(!rs.EOF) 
+{ 
+  alert("账号已经存在");
+  window.history.back();
+} 
+else
+{
+  var sql2="insert into users(userid,pwd) values("+name+",'"+pwd+"')"; 
+  try{
+   conn.execute(sql2); 
+   alert("添加成功");
+   window.history.back();
+   }
+   catch(e){
+   document.write(e.description);
+   alert("添加失败~~~");
+   }
+   conn.close(); 
+}
+rs.close(); 
+rs = null; 
+conn.close(); 
+conn = null; 
+</script>
+</head>
+<body>
+</body>
+</html>
