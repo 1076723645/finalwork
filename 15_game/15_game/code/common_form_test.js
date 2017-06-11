@@ -1,5 +1,5 @@
 // 全局变量a和b，分别获取用户框和密码框的value值
-var a = document.getElementsByTagName("input")[0].val();
+var a = document.getElementsByTagName("input")[0].vlue;
 var b = document.getElementsByTagName("input")[1].val();
 
 

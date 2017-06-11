@@ -9,7 +9,81 @@ var simpleLevelPlan = [
   "      xxxxxxxxxxxxxx  ",
   "                      "
 ];
-
+     var hour,minute,second;//时 分 秒
+     hour=minute=second=0;//初始化
+	var millisecond=0;//毫秒
+	var goal=0;
+	var int;
+	var userid = window.location.href.split("=")[1].split("&")[0];
+    function Reset()//重置
+    {
+      window.clearInterval(int);
+      millisecond=hour=minute=second=0;
+      document.getElementById('timetext').value='00:00:00:000';
+    }
+  
+    function start()//开始
+    {
+        int=setInterval(timer,50);
+    }
+	function newrecord()
+	{
+		goal = second+millisecond/1000;
+		var conn = new ActiveXObject("ADODB.Connection");
+        conn.Open("DBQ=F://soft//finalwork//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};");
+		var sql="update users set goal=" + goal + " where userid= '" + userid + "'"; 
+		try{
+		   conn.execute(sql); 
+		   alert("new record"); 
+		}
+		catch(e){
+		   document.write(e.description);
+		   alert("wrong~~~");
+		}
+		conn.close(); 
+	}
+	function record()
+	{
+		goal = second+millisecond/1000;
+		var conn = new ActiveXObject("ADODB.Connection");
+		conn.Open("DBQ=F://soft//finalwork//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};");
+		var rs = new ActiveXObject("ADODB.Recordset");
+		var sql="select * from users where userid= '" + userid + "'";
+		rs.open(sql, conn);
+		var i= 0;
+		i=rs(3);
+		if(i>goal)
+		{
+		 newrecord();
+		}
+	}
+    function timer()//计时
+    {
+      millisecond=millisecond+50;
+      if(millisecond>=1000)
+      {
+        millisecond=0;
+        second=second+1;
+      }
+      if(second>=60)
+      {
+        second=0;
+        minute=minute+1;
+      }
+  
+      if(minute>=60)
+      {
+        minute=0;
+        hour=hour+1;
+      }
+      document.getElementById('timetext').value=hour+':'+minute+':'+second+':'+millisecond;
+    }
+  
+    function stop()//暂停
+    {
+      window.clearInterval(int);
+    }
+	
 function Level(plan) {
   this.width = plan[0].length;
   this.height = plan.length;
@@ -282,6 +356,7 @@ Player.prototype.act = function(step, level, keys) {
 Level.prototype.playerTouched = function(type, actor) {
   if (type == "lava" && this.status == null) {
     this.status = "lost";
+	stop();
     this.finishDelay = 1;
   } else if (type == "coin") {
     this.actors = this.actors.filter(function(other) {
@@ -291,6 +366,8 @@ Level.prototype.playerTouched = function(type, actor) {
       return actor.type == "coin";
     })) {
       this.status = "won";
+	  stop();
+	  record();
       this.finishDelay = 1;
     }
   }
@@ -347,7 +424,10 @@ function runGame(plans, Display) {
   function startLevel(n) {
     runLevel(new Level(plans[n]), Display, function(status) {
       if (status == "lost")
+	  {
         startLevel(n);
+		start();
+	  }
       else if (n < plans.length - 1)
         startLevel(n + 1);
       else

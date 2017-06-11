@@ -22,3 +22,5 @@
 .won .player {
   box-shadow: -4px -7px 8px white, 4px -7px 8px white;
 }
+.right_record{position:absolute;right:10px;top:10px;width:100px;height:100px}
+.left_game{position:absolute;left:10px;top:10px;width:100px;height:100px}

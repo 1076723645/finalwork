@@ -25,7 +25,7 @@ $(document).ready(function(){
 	var name = $('#userid').val();
     var pwd = $('#pwd').val();
 	var conn = new ActiveXObject("ADODB.Connection");
-    conn.Open("DBQ=F://soft//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};");
+    conn.Open("DBQ=F://soft//finalwork//aaa.mdb;DRIVER={Microsoft Access Driver (*.mdb)};");
     var rs = new ActiveXObject("ADODB.Recordset");
     var sql="select * from users";
     rs.open(sql, conn);
@@ -38,13 +38,17 @@ $(document).ready(function(){
 		 return true;
 		 }
 	  document.getElementById("remind_2").innerHTML = "密码错误！";
-      document.getElementById("change_margin_2").style.marginTop = 1 + "px";
+      document.getElementById("change_margin_2").style.marginBottom = 1 + "px";
+	  rs.close(); 
+	  rs = null; 
+	  conn.close(); 
+	  conn = null;
 	 return false;
 	 }
 	 rs.moveNext();
 	 } 
 	  document.getElementById("remind_1").innerHTML = "账号不存在！";
-      document.getElementById("change_margin_1").style.marginTop = 1 + "px";
+      document.getElementById("change_margin_1").style.marginBottom = 1 + "px";
 	  rs.close(); 
 	  rs = null; 
 	  conn.close(); 
@@ -61,7 +65,7 @@ $(document).ready(function(){
     <div class="content">
         <h1 class="content-title">登录</h1>
         <div class="content-form">
-            <form id="aa" action="index.html" method="post">
+            <form id="aa" action="index.html" method="get">
                  <div id="change_margin_1">
                     <input id="userid" class="user" type="text" name="user" placeholder="请输入用户名" onblur="oBlur_1()" onfocus="oFocus_1()">
                 </div>
